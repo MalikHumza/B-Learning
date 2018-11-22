@@ -1,0 +1,31 @@
+pragma solidity ^0.4.25;
+contract landsrecord{
+   struct land{
+       address owner;
+       uint price;
+   }
+    land[2] public lands;
+    constructor(){
+        lands[0].owner = tx.origin;
+        lands[0].price = 500;
+        lands[1].owner =tx.origin;
+        lands[1].price = 500;
+    }
+     
+     event priceChanged(string a,uint256 b);
+     event ownerChannged(string a,address b)
+    ;
+    function changeprice(uint a , uint b) public returns (uint) {
+         require(msg.sender == lands[a].owner,"Authenticated owner");
+         require(lands[a].price > 0);
+        lands[a].price = b;
+         
+        emit priceChanged("Price has been changed!",b);
+        }
+     function changeOwner(uint a, address b) {
+         require(msg.sender == lands[a].owner);
+         require(lands[a].owner != b );
+         lands[a].owner = b;
+         emit ownerChannged("Owner has been changed!",b);
+     }
+}
